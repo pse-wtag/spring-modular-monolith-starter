@@ -4,8 +4,11 @@ import mu.welldev.persistence.entity.User;
 import mu.welldev.service.dto.UserRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+import java.util.Collections;
+
+@Mapper(componentModel = "spring", imports = {Collections.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper extends KeycloakMapper {
 
     @Mapping(target = "id", ignore = true)

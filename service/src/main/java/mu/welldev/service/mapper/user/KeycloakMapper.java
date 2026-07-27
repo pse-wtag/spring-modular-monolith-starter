@@ -15,4 +15,3 @@ public interface KeycloakMapper {
     @Mapping(target = "credentials", expression = "java(Collections.singletonList(representation))")
     UserRepresentation mapToUserRepresentation(UserRequest request, CredentialRepresentation representation);
 }
-
