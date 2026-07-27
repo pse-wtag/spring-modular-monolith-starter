@@ -1,0 +1,28 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write        # PR build tags
+  packages: write        # push image to GHCR
+  security-events: write # CodeQL SARIF upload
+  id-token: write        # cosign keyless signing (REQUIRED — defaults to none)
+  actions: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  pipeline:
+    uses: pse-wtag/java-cicd-template/.github/workflows/master-maven-pipeline.yml@13245bea2de84249813522c82c5b6fe71b27ea13
+    secrets: inherit
+    with:
+      java-version: '25'
+      cache-type: 'maven'
+      build-egress-policy: "block"
+      spring-boot-args: "-P dev -pl rest -am"
+      test-args: "-Dspring.profiles.active=dev"
+      signer-identity-regexp: "^https://github.com/pse-wtag/java-cicd-template/"
