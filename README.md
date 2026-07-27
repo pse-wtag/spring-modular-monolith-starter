@@ -2,6 +2,10 @@
 
 Production-grade modular monolith starter built with **Spring Boot 4** and **Java 25**. It provides a ready-to-use foundation for a modular backend with Keycloak-based authentication/authorization, a MySQL-backed persistence layer, and a CI/CD pipeline out of the box.
 
+**Using this as a template?** A few values in the root `pom.xml` are specific to the original repo/author and must be updated for your own project:
+- `<scm>` block (`connection`, `developerConnection`, `url`) — point these at your own repository.
+- `spring-boot-maven-plugin` image config — update the `BP_OCI_AUTHORS` env var (and review `BP_OCI_SOURCE`, which is derived from `project.scm.url`) to reflect your own name/org.
+
 ## Modules
 
 The project is a Maven multi-module build (`pom.xml`) split into three modules with a clear dependency direction: `rest → service → persistence`.
