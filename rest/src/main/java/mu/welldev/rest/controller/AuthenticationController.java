@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final KeycloakService keycloakService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<TokenResponse> register(@Validated @RequestBody UserRequest userRequest, HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(keycloakService.register(userRequest, httpServletRequest));
     }
