@@ -25,4 +25,4 @@ jobs:
       build-egress-policy: "block"
       spring-boot-args: "-P dev -pl rest -am"
       test-args: "-Dspring.profiles.active=dev"
-      signer-identity-regexp: "^https://github.com/pse-wtag/java-cicd-template/"
+      signer-identity-regexp: "^https://github.com/pse-wtag/java-ci-cd-template/"

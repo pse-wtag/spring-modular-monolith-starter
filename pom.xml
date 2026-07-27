@@ -23,10 +23,10 @@
     </modules>
 
     <scm>
-        <connection>scm:git:https://github.com/Bigorno12/monolith-architecture.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/Bigorno12/monolith-architecture.git</developerConnection>
+        <connection>scm:git:https://github.com/pse-wtag/spring-modular-monolith-starter.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/pse-wtag/spring-modular-monolith-starter.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/Bigorno12/monolith-architecture</url>
+        <url>https://github.com/pse-wtag/spring-modular-monolith-starter</url>
     </scm>
 
     <properties>
