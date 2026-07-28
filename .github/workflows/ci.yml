@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   pipeline:
-    uses: pse-wtag/java-ci-cd-template/.github/workflows/master-maven-pipeline.yml@2a06a9f7cecbd543c0d9bbdbb296663d4e72c8de
+    uses: pse-wtag/java-ci-cd-template/.github/workflows/master-maven-pipeline.yml@c8a996c309864d873d441c0fd74c2b69f1ee5fdc
     secrets: inherit
     with:
       java-version: '25'
