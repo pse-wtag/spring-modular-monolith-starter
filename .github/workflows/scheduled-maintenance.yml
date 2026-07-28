@@ -1,0 +1,62 @@
+name: Scheduled Maintenance Module
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  retry-on-failure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Rerun  failed jobs using Github CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          WORKFLOW_FILENAME="ci.yml"
+          
+          echo "Searching for failed runs in $WORKFLOW_FILENAME..."
+          
+          RUN_IDS=$(gh run list --workflow "$WORKFLOW_FILENAME" --status failure --limit 5 --json databaseId --jq '.[].databaseId')
+          
+          if [ -z "$RUN_IDS" ]; then
+            echo "✅ No failed runs found. Everything is green!"
+            exit 0
+          fi
+          
+          for id in $RUN_IDS; do
+            ATTEMPTS=$(gh run view $id --json attempt --jq '.attempt')
+          
+            if [ "$ATTEMPTS" -ge 2 ]; then
+              echo "⏭️ Skipping $id (Already attempted $ATTEMPTS times)."
+              continue
+            fi
+          
+            echo "⏳ Retrying failed jobs for Run ID: $id"
+          
+            gh run rerun $id --failed || echo "⚠️ Could not retry $id (it might be too old or already running)"
+
+            sleep 5
+          done
+
+  cache-cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Delete stale or non-default-branch caches
+        uses: pse-wtag/java-ci-cd-template/.github/actions/cache-cleanup@2e013456153e63ea52e792eec4ebc040c313f301
+        with:
+          keep-ref: 'refs/heads/main'
+          retention-days: '5'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
