@@ -18,6 +18,7 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class KeycloakServiceImpl implements KeycloakService {
     private final KeycloakTokenProvider keycloakTokenProvider;
 
     @Override
+    @Transactional
     public TokenResponse register(UserRequest userRequest, HttpServletRequest request) {
         userRepository.findUserByUsername(userRequest.username())
                 .ifPresent(user -> {
@@ -74,6 +76,7 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TokenResponse authenticate(String username, String password, HttpServletRequest request) {
         return keycloakTokenProvider.getToken(username, password);
     }
