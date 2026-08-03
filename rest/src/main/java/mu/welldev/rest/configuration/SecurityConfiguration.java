@@ -1,6 +1,7 @@
 package mu.welldev.rest.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -110,7 +111,7 @@ public class SecurityConfiguration {
                 })
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELISTED_PATHS).permitAll()
-                        .requestMatchers("/actuator/**").hasAnyAuthority(ADMIN_READ.getPermission())
+                        .requestMatchers(EndpointRequest.to("health", "info")).hasAnyAuthority(ADMIN_READ.getPermission())
                         .anyRequest().authenticated()
                 )
                 .build();
