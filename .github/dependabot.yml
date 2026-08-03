@@ -13,6 +13,9 @@ updates:
         patterns:
           - "org.springframework.boot:spring-boot-starter-parent"
           - "org.springframework.*"
+      maven:
+        patterns:
+          - "org.apache.maven.plugins:*"
       test-dependencies:
         patterns:
           - "junit:*"
@@ -22,11 +25,10 @@ updates:
     labels:
       - "dependencies"
       - "java"
-    # Recommend reviewers for PRs
-    reviewers:
-      - "Bigorno"
     assignees:
-      - "Bigorno"
+      - "pse-wtag"
+      - "pgo-wtag"
+      - "agm-wtag"
 
 
   - package-ecosystem: "docker-compose"
