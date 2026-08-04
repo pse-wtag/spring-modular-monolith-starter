@@ -11,5 +11,5 @@ import org.springframework.resilience.annotation.EnableResilientMethods;
 @ComponentScan(basePackages = "mu.welldev")
 @EntityScan(basePackages = "mu.welldev.persistence.entity")
 @EnableJpaRepositories(basePackages = "mu.welldev.persistence.repository")
-public class ApplicationConfig {
+public class ApplicationConfiguration {
 }
