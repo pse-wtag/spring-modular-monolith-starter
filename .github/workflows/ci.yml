@@ -17,12 +17,9 @@ permissions:
 
 jobs:
   pipeline:
-    uses: pse-wtag/java-ci-cd-template/.github/workflows/master-maven-pipeline.yml@1445743af85280c80e6843fc204da95ac88dec76
+    uses: pse-wtag/java-ci-cd-template/.github/workflows/master-maven-pipeline.yml@ac6a724796cea0aa5deb9d174da2152950b07cc4
     secrets: inherit
     with:
-      java-version: '25'
-      cache-type: 'maven'
-      build-egress-policy: "block"
       spring-boot-args: "-P dev -pl rest -am"
       test-args: "-Dspring.profiles.active=dev"
       signer-identity-regexp: "^https://github.com/pse-wtag/java-ci-cd-template/"
