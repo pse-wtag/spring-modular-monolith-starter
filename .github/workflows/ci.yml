@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   pipeline:
-    uses: pse-wtag/java-ci-cd-template/.github/workflows/master-maven-pipeline.yml@20aa4dea9646a8e3d9bf8c1934845009ce9dc644
+    uses: pse-wtag/java-ci-cd-template/.github/workflows/master-maven-pipeline.yml@8951bfbc3e85cde4f5573fab04c50399c7995c64
     secrets: inherit
     with:
       spring-boot-args: "-P dev -pl rest -am"
