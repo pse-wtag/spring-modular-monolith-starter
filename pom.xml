@@ -46,7 +46,7 @@
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <maven.version>3.9.9</maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <resteasy.version>7.0.2.Final</resteasy.version>
+        <resteasy.version>7.0.3.Final</resteasy.version>
         <spotless.version>3.8.0</spotless.version>
         <testcontainers-keycloak.version>4.3.1</testcontainers-keycloak.version>
         <testcontainers.version>1.21.4</testcontainers.version>
