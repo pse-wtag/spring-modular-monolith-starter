@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.tngtech.archunit.base.DescribedPredicate.not;
+import static com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAPackage;
 import static com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
@@ -15,6 +17,8 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
 public class ArchitectureTest {
+
+    private static final String ENUMERATION_PACKAGE = "..persistence.enumeration..";
 
     private final JavaClasses allProjectClasses = new ClassFileImporter()
             .withImportOption(DO_NOT_INCLUDE_TESTS)
@@ -26,12 +30,14 @@ public class ArchitectureTest {
                 .consideringAllDependencies()
                 .layer("Controller").definedBy("..controller..")
                 .layer("Service").definedBy("..service..")
-                .layer("Persistence").definedBy("..persistence..")
+                .layer("Persistence").definedBy(resideInAPackage("..persistence..").and(not(resideInAPackage(ENUMERATION_PACKAGE))))
+                .layer("Enumeration").definedBy(ENUMERATION_PACKAGE)
                 .layer("Configuration").definedBy("..configuration..")
                 .layer("Advice").definedBy("..advice..", "..handler..")
                 .whereLayer("Controller").mayNotBeAccessedByAnyLayer()
                 .whereLayer("Service").mayOnlyBeAccessedByLayers("Controller", "Configuration", "Advice")
-                .whereLayer("Persistence").mayOnlyBeAccessedByLayers("Service", "Configuration", "Controller");
+                .whereLayer("Persistence").mayOnlyBeAccessedByLayers("Service", "Configuration", "Controller")
+                .whereLayer("Enumeration").mayOnlyBeAccessedByLayers("Persistence", "Service", "Controller", "Configuration", "Advice");
 
         layeredArchitecture.check(allProjectClasses);
     }
@@ -72,6 +78,32 @@ public class ArchitectureTest {
         noClasses().that().resideInAnyPackage("..persistence..")
                 .should().dependOnClassesThat().resideInAnyPackage("..service..")
                 .andShould().dependOnClassesThat().resideInAnyPackage("..controller..")
+                .check(allProjectClasses);
+    }
+
+    @Test
+    void persistence_enums_should_all_live_in_the_shared_enumeration_package() {
+        classes().that().resideInAPackage("..persistence..")
+                .and().areEnums()
+                .should().resideInAPackage(ENUMERATION_PACKAGE)
+                .because("""
+                        the enumeration package is the only slice of persistence the service and rest modules may import,
+                        so an enum outside it is unreachable from the upper layers
+                        """
+                )
+                .check(allProjectClasses);
+    }
+
+    @Test
+    void shared_enumeration_package_should_not_drag_in_the_rest_of_persistence() {
+        noClasses().that().resideInAPackage(ENUMERATION_PACKAGE)
+                .should().dependOnClassesThat(
+                        resideInAPackage("..persistence..").and(not(resideInAPackage(ENUMERATION_PACKAGE))))
+                .because("""
+                        the shared enums must stay a leaf: depending on entities or repositories would leak them
+                        into the service and rest modules through the back door
+                        """
+                )
                 .check(allProjectClasses);
     }
 }
