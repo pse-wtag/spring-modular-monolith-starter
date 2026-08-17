@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Delete stale or non-default-branch caches
-        uses: pse-wtag/java-ci-cd-template/.github/actions/cache-cleanup@8951bfbc3e85cde4f5573fab04c50399c7995c64
+        uses: pse-wtag/java-ci-cd-template/.github/actions/cache-cleanup@eab9ecc711576348dafed94089f0afffd2c89106
         with:
           keep-ref: 'refs/heads/main'
           retention-days: '5'
