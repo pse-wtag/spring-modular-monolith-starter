@@ -35,8 +35,6 @@ updates:
     labels:
       - "dependencies"
       - "java"
-    assignees:
-      - "Bigorno12"
 
   - package-ecosystem: "docker-compose"
     directory: "/infra"

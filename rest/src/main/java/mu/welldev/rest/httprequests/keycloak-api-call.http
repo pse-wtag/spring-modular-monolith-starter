@@ -1,25 +1,3 @@
-//--------------- keycloak ---------------
-
-### Admin
-POST {{host}}/api/v1/auth/register
-Content-Type: application/json
-X-API-VERSION: 1.0
-
-{
-  "firstName": "Pranav",
-  "lastName": "Seewoodharry",
-  "age": 29,
-  "gender": "MALE",
-  "email": "{{email}}",
-  "username": "{{username}}",
-  "role": "{{role}}",
-  "password": "{{password}}"
-}
-> {%
-    client.global.set("access_token", response.body.accessToken)
-    client.global.set("refresh_token", response.body.refreshToken)
-%}
-
 ### USER
 POST {{host}}/api/v1/auth/register
 Content-Type: application/json
@@ -32,7 +10,6 @@ X-API-VERSION: 1.0
   "gender": "MALE",
   "email": "test1@test.com",
   "username": "test1234",
-  "role": "USER",
   "password": "password1234"
 }
 > {%

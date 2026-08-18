@@ -1,2 +1,6 @@
-# This assigns to review ANY PR that is opened.// Reviewers
+# This assigns reviewers to any PR that is opened.
 * @pse-wtag @pgo-wtag @agm-wtag @gma-wtag @bma-wtag @gda-wtag @aro-wtag @dra-wtag @lse-wtag @kbu-wtag
+
+# GitHub Actions workflows and Dependabot config:
+/.github/workflows/ @pse-wtag
+/.github/dependabot.yml @pse-wtag
