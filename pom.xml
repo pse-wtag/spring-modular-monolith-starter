@@ -38,7 +38,7 @@
         <commons-codec.version>1.22.1</commons-codec.version>
         <commons-io.version>2.22.0</commons-io.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
-        <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
+        <exec-maven-plugin.version>3.6.4</exec-maven-plugin.version>
         <jakarta.validation-api.version>3.1.1</jakarta.validation-api.version>
         <java.version>25</java.version>
         <keycloak.version>26.0.12</keycloak.version>
